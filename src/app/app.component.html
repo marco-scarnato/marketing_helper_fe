@@ -1,0 +1,20 @@
+<main class="wrapper">
+  <section class="panel">
+    <h1>CreativeHub</h1>
+
+    <p *ngIf="loading">Connecting...</p>
+
+    <p *ngIf="!loading && !error" class="badge badge-success">
+      {{ status }} - {{ environment }}
+    </p>
+
+    <div *ngIf="!loading && !error && healthResponse" class="response-box">
+      <p class="response-title">Health response</p>
+      <pre>{{ healthResponse | json }}</pre>
+    </div>
+
+    <p *ngIf="!loading && error" class="badge badge-error">
+      Backend unreachable
+    </p>
+  </section>
+</main>

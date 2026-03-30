@@ -1,0 +1,62 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: #f7f9fb;
+}
+
+.panel {
+  text-align: center;
+  max-width: 680px;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.badge-success {
+  background: #e0f2e9;
+  color: #1a7a4f;
+}
+
+.badge-error {
+  background: #fce8e8;
+  color: #a32d2d;
+}
+
+.response-box {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d6deea;
+  border-radius: 12px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.response-title {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.9rem;
+}
