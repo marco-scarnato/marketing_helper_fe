@@ -27,6 +27,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -84,6 +85,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []

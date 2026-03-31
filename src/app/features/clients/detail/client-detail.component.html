@@ -1,0 +1,68 @@
+<section class="page-container" *ngIf="!loading && client as currentClient; else loadingTpl">
+  <div class="detail-header">
+    <div class="identity">
+      <img *ngIf="logoUrl(currentClient.logo_path); else logoFallback" [src]="logoUrl(currentClient.logo_path)!" alt="Logo cliente" class="logo" />
+      <ng-template #logoFallback>
+        <div class="logo-fallback">{{ initials(currentClient.name) }}</div>
+      </ng-template>
+
+      <div>
+        <h1>{{ currentClient.name }}</h1>
+        <mat-chip-set>
+          <mat-chip *ngIf="currentClient.sector">{{ currentClient.sector }}</mat-chip>
+          <mat-chip [class.active-status]="currentClient.status === 'active'" [class.archived-status]="currentClient.status === 'archived'">
+            {{ currentClient.status === 'active' ? 'Attivo' : 'Archiviato' }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button mat-stroked-button color="primary" [routerLink]="['/clients', currentClient.id, 'edit']">Modifica</button>
+      <button mat-raised-button color="warn" *ngIf="currentClient.status === 'active'" (click)="archiveClient()" [disabled]="archiving">
+        {{ archiving ? 'Archiviazione...' : 'Archivia' }}
+      </button>
+    </div>
+  </div>
+
+  <mat-card>
+    <h2>Link</h2>
+    <mat-chip-set *ngIf="currentClient.links.length > 0; else noLinks">
+      <mat-chip *ngFor="let link of currentClient.links">
+        <a [href]="link.url" target="_blank" rel="noopener">{{ link.label }}</a>
+      </mat-chip>
+    </mat-chip-set>
+    <ng-template #noLinks>
+      <p class="muted">Nessun link disponibile.</p>
+    </ng-template>
+  </mat-card>
+
+  <mat-card>
+    <h2>Referenti</h2>
+    <mat-list *ngIf="currentClient.contacts.length > 0; else noContacts">
+      <mat-list-item *ngFor="let contact of currentClient.contacts">
+        <div matListItemAvatar class="avatar">{{ initials(contact.name) }}</div>
+        <div matListItemTitle>{{ contact.name }} <span *ngIf="contact.role">- {{ contact.role }}</span></div>
+        <div matListItemLine>{{ contact.email }}</div>
+      </mat-list-item>
+    </mat-list>
+    <ng-template #noContacts>
+      <p class="muted">Nessun referente disponibile.</p>
+    </ng-template>
+  </mat-card>
+
+  <mat-card>
+    <h2>Note</h2>
+    <p class="notes">{{ currentClient.notes || 'Nessuna nota' }}</p>
+  </mat-card>
+
+  <p class="meta">
+    Creato il {{ currentClient.created_at | date:'dd/MM/yyyy HH:mm' }} | Aggiornato il {{ currentClient.updated_at | date:'dd/MM/yyyy HH:mm' }}
+  </p>
+</section>
+
+<ng-template #loadingTpl>
+  <section class="page-container loading">
+    <mat-spinner diameter="36"></mat-spinner>
+  </section>
+</ng-template>

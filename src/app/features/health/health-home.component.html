@@ -1,0 +1,23 @@
+<section class="page-container health-page">
+  <mat-card>
+    <h1>CreativeHub</h1>
+
+    <div class="loading" *ngIf="loading">
+      <mat-spinner diameter="32"></mat-spinner>
+      <p>Connessione al backend...</p>
+    </div>
+
+    <p *ngIf="!loading && !error" class="badge badge-success">
+      {{ status }} - {{ environment }}
+    </p>
+
+    <div *ngIf="!loading && !error && healthResponse" class="response-box">
+      <p class="response-title">Health response</p>
+      <pre>{{ healthResponse | json }}</pre>
+    </div>
+
+    <p *ngIf="!loading && error" class="badge badge-error">
+      {{ error }}
+    </p>
+  </mat-card>
+</section>

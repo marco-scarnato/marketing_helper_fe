@@ -1,0 +1,99 @@
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.identity {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.logo,
+.logo-fallback {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+}
+
+.logo {
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.logo-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ebf0f7;
+  color: #2c4f7b;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+mat-card {
+  margin-bottom: 12px;
+}
+
+.active-status {
+  background: #e4f6ea;
+  color: #14703c;
+}
+
+.archived-status {
+  background: #f6e9e9;
+  color: #9d2f2f;
+}
+
+mat-chip a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ebf0f7;
+  color: #2c4f7b;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.notes {
+  white-space: pre-wrap;
+}
+
+.muted {
+  color: #666;
+}
+
+.meta {
+  font-size: 0.82rem;
+  color: #666;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding-top: 48px;
+}
+
+@media (max-width: 800px) {
+  .detail-header {
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+  }
+}

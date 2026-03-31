@@ -1,0 +1,115 @@
+<section class="page-container">
+  <div class="header-row">
+    <h1>{{ isEditMode ? 'Modifica cliente' : 'Nuovo cliente' }}</h1>
+    <button mat-stroked-button type="button" routerLink="/clients">Torna alla lista</button>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <mat-spinner diameter="36"></mat-spinner>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!loading" class="form-layout">
+    <mat-card>
+      <h2>Info base</h2>
+      <div class="grid-2">
+        <mat-form-field appearance="outline">
+          <mat-label>Ragione sociale</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error *ngIf="form.get('name')?.hasError('required')">Campo obbligatorio</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Settore</mat-label>
+          <input matInput formControlName="sector" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Sito web</mat-label>
+          <input matInput formControlName="website" placeholder="https://..." />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <mat-card>
+      <div class="section-title">
+        <h2>Link utili</h2>
+        <button mat-stroked-button type="button" (click)="addLink()">+ Aggiungi link</button>
+      </div>
+
+      <div formArrayName="links" class="stack-gap">
+        <div class="array-row" *ngFor="let link of linksArray.controls; let i = index; trackBy: trackByIndex" [formGroupName]="i">
+          <mat-form-field appearance="outline">
+            <mat-label>URL</mat-label>
+            <input matInput formControlName="url" placeholder="https://..." />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Etichetta</mat-label>
+            <input matInput formControlName="label" placeholder="LinkedIn, Sito corporate..." />
+          </mat-form-field>
+
+          <button mat-icon-button type="button" color="warn" (click)="removeLink(i)" [disabled]="linksArray.length === 1">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card>
+      <div class="section-title">
+        <h2>Referenti</h2>
+        <button mat-stroked-button type="button" (click)="addContact()">+ Aggiungi referente</button>
+      </div>
+
+      <div formArrayName="contacts" class="stack-gap">
+        <div class="array-row" *ngFor="let contact of contactsArray.controls; let i = index; trackBy: trackByIndex" [formGroupName]="i">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="name" />
+            <mat-error *ngIf="contact.get('name')?.hasError('required')">Campo obbligatorio</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+            <mat-error *ngIf="contact.get('email')?.hasError('required')">Campo obbligatorio</mat-error>
+            <mat-error *ngIf="contact.get('email')?.hasError('email')">Email non valida</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Ruolo</mat-label>
+            <input matInput formControlName="role" />
+          </mat-form-field>
+
+          <button mat-icon-button type="button" color="warn" (click)="removeContact(i)" [disabled]="contactsArray.length === 1">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card>
+      <h2>Note</h2>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Note interne</mat-label>
+        <textarea matInput rows="4" formControlName="notes"></textarea>
+      </mat-form-field>
+    </mat-card>
+
+    <mat-card>
+      <h2>Logo</h2>
+      <button mat-stroked-button type="button" (click)="logoInput.click()">Carica logo</button>
+      <input #logoInput type="file" hidden (change)="onLogoSelected($event)" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
+
+      <div class="logo-preview" *ngIf="logoPreview">
+        <img [src]="logoPreview" alt="Anteprima logo" />
+      </div>
+    </mat-card>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="saving">
+        {{ saving ? 'Salvataggio...' : (isEditMode ? 'Aggiorna cliente' : 'Crea cliente') }}
+      </button>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,51 @@
+h1 {
+  margin-top: 0;
+}
+
+.health-page {
+  padding-top: 32px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.badge-success {
+  background: #e0f2e9;
+  color: #1a7a4f;
+}
+
+.badge-error {
+  background: #fce8e8;
+  color: #a32d2d;
+}
+
+.response-box {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d6deea;
+  border-radius: 12px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.response-title {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,55 @@
+<section class="page-container">
+  <div class="list-header">
+    <h1>Gestione Clienti</h1>
+    <button mat-raised-button color="primary" routerLink="/clients/new">+ Nuovo cliente</button>
+  </div>
+
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Cerca per nome o settore</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Es. Fashion, Acme" />
+    </mat-form-field>
+
+    <mat-slide-toggle [checked]="showArchived" (change)="onArchivedToggle($event)">
+      Mostra archiviati
+    </mat-slide-toggle>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <mat-spinner diameter="36"></mat-spinner>
+  </div>
+
+  <p class="error" *ngIf="!loading && error">{{ error }}</p>
+
+  <div class="empty-state" *ngIf="!loading && !error && clients.length === 0">
+    <mat-icon>groups</mat-icon>
+    <p>Nessun cliente ancora</p>
+  </div>
+
+  <div class="client-grid" *ngIf="!loading && !error && clients.length > 0">
+    <mat-card class="client-card" *ngFor="let client of clients" [routerLink]="['/clients', client.id]">
+      <div class="logo-wrap">
+        <img *ngIf="logoUrl(client.logo_path); else initialsAvatar" [src]="logoUrl(client.logo_path)!" alt="Logo cliente" />
+        <ng-template #initialsAvatar>
+          <div class="initials-avatar">{{ getInitials(client.name) }}</div>
+        </ng-template>
+      </div>
+
+      <div class="content">
+        <h2>{{ client.name }}</h2>
+        <span class="sector" *ngIf="client.sector">{{ client.sector }}</span>
+
+        <div class="contact" *ngIf="getFirstContact(client) as contact">
+          <strong>{{ contact.name }}</strong>
+          <a [href]="'mailto:' + contact.email" (click)="$event.stopPropagation()">{{ contact.email }}</a>
+        </div>
+
+        <mat-chip-set *ngIf="client.links.length > 0">
+          <mat-chip *ngFor="let link of client.links">
+            <a [href]="link.url" target="_blank" rel="noopener" (click)="$event.stopPropagation()">{{ link.label }}</a>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </mat-card>
+  </div>
+</section>

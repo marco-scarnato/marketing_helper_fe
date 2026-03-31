@@ -1,20 +1,13 @@
-<main class="wrapper">
-  <section class="panel">
-    <h1>CreativeHub</h1>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a routerLink="/" class="brand">CreativeHub</a>
+    <nav>
+      <a mat-button routerLink="/">Home</a>
+      <a mat-button color="primary" routerLink="/clients">Clienti</a>
+    </nav>
+  </div>
+</header>
 
-    <p *ngIf="loading">Connecting...</p>
-
-    <p *ngIf="!loading && !error" class="badge badge-success">
-      {{ status }} - {{ environment }}
-    </p>
-
-    <div *ngIf="!loading && !error && healthResponse" class="response-box">
-      <p class="response-title">Health response</p>
-      <pre>{{ healthResponse | json }}</pre>
-    </div>
-
-    <p *ngIf="!loading && error" class="badge badge-error">
-      Backend unreachable
-    </p>
-  </section>
+<main>
+  <router-outlet></router-outlet>
 </main>
