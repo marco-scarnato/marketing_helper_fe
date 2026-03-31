@@ -1,0 +1,39 @@
+.full-width {
+  width: 100%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+}
+
+.avatar,
+.avatar-placeholder {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+.avatar {
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  background: #6c3fc5;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.selected {
+  background: rgba(108, 63, 197, 0.09);
+}
+
+.empty {
+  color: #666;
+}

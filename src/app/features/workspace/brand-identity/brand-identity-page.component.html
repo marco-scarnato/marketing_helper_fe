@@ -1,0 +1,56 @@
+<section class="brand-page" *ngIf="!loading; else loadingState">
+  <ng-container *ngIf="clientId; else noClient">
+    <ng-container *ngIf="initialized; else emptyState">
+      <div class="brand-grid">
+        <div class="left-column">
+          <app-brand-identity-form
+            [model]="brandIdentity"
+            (sectionFocused)="onSectionFocused($event)"
+            (saveSection)="onSaveSection($event)"
+            (uploadLogo)="onUploadLogo($event)"
+            (formDirty)="onFormDirty($event)">
+          </app-brand-identity-form>
+        </div>
+
+        <div class="right-column">
+          <app-ai-panel
+            [activeSection]="activeSection"
+            [clientId]="clientId"
+            (applyProposal)="onApplyAI($event)">
+          </app-ai-panel>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="empty-wrapper">
+        <mat-card class="choice-card">
+          <mat-icon>edit_note</mat-icon>
+          <h3>Compila manualmente</h3>
+          <p>Inserisci ogni sezione in autonomia per costruire la tua identità di brand.</p>
+          <button mat-raised-button color="primary" (click)="startManualFlow()">Inizia da zero</button>
+        </mat-card>
+
+        <mat-card class="choice-card">
+          <mat-icon>auto_awesome</mat-icon>
+          <h3>Fatti aiutare dall'AI</h3>
+          <p>Genera una base iniziale e poi rifinisci manualmente le sezioni.</p>
+          <button mat-stroked-button color="primary" (click)="startAIFlow()">Usa AI</button>
+        </mat-card>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #noClient>
+    <mat-card>
+      <h3>Nessun cliente attivo</h3>
+      <p>Seleziona prima un cliente dalla sidebar per continuare.</p>
+    </mat-card>
+  </ng-template>
+</section>
+
+<ng-template #loadingState>
+  <div class="loading-state">
+    <mat-spinner diameter="36"></mat-spinner>
+  </div>
+</ng-template>

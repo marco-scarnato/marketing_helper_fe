@@ -1,0 +1,52 @@
+.ai-panel {
+  border-left: 1px solid #e3e3e3;
+  height: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ai-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ai-header mat-icon {
+  color: #6c3fc5;
+}
+
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(108, 63, 197, 0.1);
+  color: #5c2fb8;
+  font-size: 12px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.reasoning-area {
+  min-height: 120px;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.proposed-area pre {
+  border-left: 3px solid #6c3fc5;
+  padding: 8px;
+  background: #faf7ff;
+}
+
+.stub-note {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.muted {
+  color: #666;
+}

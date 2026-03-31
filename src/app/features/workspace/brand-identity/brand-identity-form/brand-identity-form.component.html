@@ -1,0 +1,363 @@
+<form [formGroup]="form">
+<mat-accordion multi>
+  <mat-expansion-panel (opened)="onSectionOpen('core')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Brand Core</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Descrizione business</mat-label>
+        <textarea matInput rows="3" formControlName="business_description"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Mission</mat-label>
+        <textarea matInput rows="2" formControlName="mission"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Vision</mat-label>
+        <textarea matInput rows="2" formControlName="vision"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>UVP</mat-label>
+        <textarea matInput rows="2" formControlName="unique_value_proposition"></textarea>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" type="button" (click)="save('core')">Salva sezione</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onSectionOpen('tone_of_voice')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Tono di Voce</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div [formGroup]="form.controls.tone_of_voice" class="grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Stile</mat-label>
+        <input matInput formControlName="style" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Lingua</mat-label>
+        <input matInput formControlName="language" />
+      </mat-form-field>
+
+      <div class="chip-block">
+        <label>Da dire</label>
+        <div class="chip-row">
+          <mat-chip-set>
+            <mat-chip *ngFor="let chip of doSayArray.controls; let i = index" (removed)="removeChip(i, doSayArray)">
+              {{ chip.value }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div class="chip-input-row">
+          <input matInput [(ngModel)]="chipInputs['doSay']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+          <button mat-stroked-button type="button" (click)="addChip('doSay', doSayArray)">Aggiungi</button>
+        </div>
+      </div>
+
+      <div class="chip-block">
+        <label>Da evitare</label>
+        <div class="chip-row">
+          <mat-chip-set>
+            <mat-chip *ngFor="let chip of dontSayArray.controls; let i = index" (removed)="removeChip(i, dontSayArray)">
+              {{ chip.value }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div class="chip-input-row">
+          <input matInput [(ngModel)]="chipInputs['dontSay']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+          <button mat-stroked-button type="button" (click)="addChip('dontSay', dontSayArray)">Aggiungi</button>
+        </div>
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" type="button" (click)="save('tone_of_voice')">Salva sezione</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onSectionOpen('visual_identity')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Identità Visiva</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="logos-grid">
+      <div class="logo-item" *ngFor="let logo of logos">
+        <img [src]="logo.path" [alt]="logo.variant" />
+        <span>{{ logo.variant }}</span>
+      </div>
+    </div>
+
+    <label class="upload-btn">
+      <input type="file" hidden accept="image/*" (change)="onLogoFileSelected($event)" />
+      <span>Carica logo</span>
+    </label>
+
+    <div [formGroup]="form.controls.visual_identity" class="grid">
+      <div class="chip-block">
+        <label>Palette colori</label>
+        <div class="chip-row">
+          <mat-chip-set>
+            <mat-chip *ngFor="let chip of colorPaletteArray.controls; let i = index" (removed)="removeChip(i, colorPaletteArray)">
+              {{ chip.value }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div class="chip-input-row">
+          <input matInput [(ngModel)]="chipInputs['palette']" [ngModelOptions]="{standalone: true}" placeholder="Es. #1A2B3C" />
+          <button mat-stroked-button type="button" (click)="addChip('palette', colorPaletteArray)">Aggiungi</button>
+        </div>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipografia</mat-label>
+        <input matInput formControlName="typography" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Stile imagery</mat-label>
+        <textarea matInput rows="2" formControlName="imagery_style"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Note uso logo</mat-label>
+        <textarea matInput rows="2" formControlName="logo_usage_notes"></textarea>
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" type="button" (click)="save('visual_identity')">Salva sezione</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onSectionOpen('target_audience')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Target / Cliente Ideale</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div [formGroup]="form.controls.target_audience" class="grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Demographics</mat-label>
+        <textarea matInput rows="2" formControlName="demographics"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Psychographics</mat-label>
+        <textarea matInput rows="2" formControlName="psychographics"></textarea>
+      </mat-form-field>
+
+      <div class="chip-block">
+        <label>Pain points</label>
+        <div class="chip-row">
+          <mat-chip-set>
+            <mat-chip *ngFor="let chip of painPointsArray.controls; let i = index" (removed)="removeChip(i, painPointsArray)">
+              {{ chip.value }}
+              <button matChipRemove><mat-icon>cancel</mat-icon></button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div class="chip-input-row">
+          <input matInput [(ngModel)]="chipInputs['painPoints']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+          <button mat-stroked-button type="button" (click)="addChip('painPoints', painPointsArray)">Aggiungi</button>
+        </div>
+      </div>
+
+      <div class="chip-block">
+        <label>Goals</label>
+        <div class="chip-row">
+          <mat-chip-set>
+            <mat-chip *ngFor="let chip of goalsArray.controls; let i = index" (removed)="removeChip(i, goalsArray)">
+              {{ chip.value }}
+              <button matChipRemove><mat-icon>cancel</mat-icon></button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div class="chip-input-row">
+          <input matInput [(ngModel)]="chipInputs['goals']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+          <button mat-stroked-button type="button" (click)="addChip('goals', goalsArray)">Aggiungi</button>
+        </div>
+      </div>
+
+      <div class="chip-block">
+        <label>Buying triggers</label>
+        <div class="chip-row">
+          <mat-chip-set>
+            <mat-chip *ngFor="let chip of buyingTriggersArray.controls; let i = index" (removed)="removeChip(i, buyingTriggersArray)">
+              {{ chip.value }}
+              <button matChipRemove><mat-icon>cancel</mat-icon></button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div class="chip-input-row">
+          <input matInput [(ngModel)]="chipInputs['triggers']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+          <button mat-stroked-button type="button" (click)="addChip('triggers', buyingTriggersArray)">Aggiungi</button>
+        </div>
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" type="button" (click)="save('target_audience')">Salva sezione</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onSectionOpen('positioning')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Posizionamento</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="chip-block">
+      <label>Competitor</label>
+      <div class="chip-row">
+        <mat-chip-set>
+          <mat-chip *ngFor="let chip of competitorsArray.controls; let i = index" (removed)="removeChip(i, competitorsArray)">
+            {{ chip.value }}
+            <button matChipRemove><mat-icon>cancel</mat-icon></button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="chip-input-row">
+        <input matInput [(ngModel)]="chipInputs['competitors']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+        <button mat-stroked-button type="button" (click)="addChip('competitors', competitorsArray)">Aggiungi</button>
+      </div>
+    </div>
+
+    <div class="chip-block">
+      <label>Differenziatori</label>
+      <div class="chip-row">
+        <mat-chip-set>
+          <mat-chip *ngFor="let chip of differentiatorsArray.controls; let i = index" (removed)="removeChip(i, differentiatorsArray)">
+            {{ chip.value }}
+            <button matChipRemove><mat-icon>cancel</mat-icon></button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="chip-input-row">
+        <input matInput [(ngModel)]="chipInputs['differentiators']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+        <button mat-stroked-button type="button" (click)="addChip('differentiators', differentiatorsArray)">Aggiungi</button>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" type="button" (click)="save('positioning')">Salva sezione</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onSectionOpen('products')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Prodotti / Servizi</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="chip-block">
+      <label>Prodotti / Servizi</label>
+      <div class="chip-row">
+        <mat-chip-set>
+          <mat-chip *ngFor="let chip of productsArray.controls; let i = index" (removed)="removeChip(i, productsArray)">
+            {{ chip.value }}
+            <button matChipRemove><mat-icon>cancel</mat-icon></button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="chip-input-row">
+        <input matInput [(ngModel)]="chipInputs['products']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+        <button mat-stroked-button type="button" (click)="addChip('products', productsArray)">Aggiungi</button>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" type="button" (click)="save('products')">Salva sezione</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onSectionOpen('seo')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Parole Chiave / SEO</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="chip-block">
+      <label>Keywords SEO</label>
+      <div class="chip-row">
+        <mat-chip-set>
+          <mat-chip *ngFor="let chip of keywordsArray.controls; let i = index" (removed)="removeChip(i, keywordsArray)">
+            {{ chip.value }}
+            <button matChipRemove><mat-icon>cancel</mat-icon></button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="chip-input-row">
+        <input matInput [(ngModel)]="chipInputs['keywords']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+        <button mat-stroked-button type="button" (click)="addChip('keywords', keywordsArray)">Aggiungi</button>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" type="button" (click)="save('seo')">Salva sezione</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onSectionOpen('compliance')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Compliance / Vincoli</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="chip-block">
+      <label>Approved claims</label>
+      <div class="chip-row">
+        <mat-chip-set>
+          <mat-chip *ngFor="let chip of approvedClaimsArray.controls; let i = index" (removed)="removeChip(i, approvedClaimsArray)">
+            {{ chip.value }}
+            <button matChipRemove><mat-icon>cancel</mat-icon></button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="chip-input-row">
+        <input matInput [(ngModel)]="chipInputs['claims']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+        <button mat-stroked-button type="button" (click)="addChip('claims', approvedClaimsArray)">Aggiungi</button>
+      </div>
+    </div>
+
+    <div class="chip-block">
+      <label>Restricted topics</label>
+      <div class="chip-row">
+        <mat-chip-set>
+          <mat-chip *ngFor="let chip of restrictedTopicsArray.controls; let i = index" (removed)="removeChip(i, restrictedTopicsArray)">
+            {{ chip.value }}
+            <button matChipRemove><mat-icon>cancel</mat-icon></button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="chip-input-row">
+        <input matInput [(ngModel)]="chipInputs['restricted']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+        <button mat-stroked-button type="button" (click)="addChip('restricted', restrictedTopicsArray)">Aggiungi</button>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Note legali</mat-label>
+      <textarea matInput rows="3" formControlName="legal_notes"></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="button" (click)="save('compliance')">Salva sezione</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onSectionOpen('cta')">
+    <mat-expansion-panel-header>
+      <mat-panel-title>CTA e Canali</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="grid">
+      <mat-form-field appearance="outline">
+        <mat-label>CTA primaria</mat-label>
+        <input matInput formControlName="cta_primary" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>CTA secondaria</mat-label>
+        <input matInput formControlName="cta_secondary" />
+      </mat-form-field>
+    </div>
+
+    <div class="chip-block">
+      <label>Canali preferiti</label>
+      <div class="chip-row">
+        <mat-chip-set>
+          <mat-chip *ngFor="let chip of channelsArray.controls; let i = index" (removed)="removeChip(i, channelsArray)">
+            {{ chip.value }}
+            <button matChipRemove><mat-icon>cancel</mat-icon></button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="chip-input-row">
+        <input matInput [(ngModel)]="chipInputs['channels']" [ngModelOptions]="{standalone: true}" placeholder="Aggiungi" />
+        <button mat-stroked-button type="button" (click)="addChip('channels', channelsArray)">Aggiungi</button>
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" type="button" (click)="save('cta')">Salva sezione</button>
+  </mat-expansion-panel>
+</mat-accordion>
+</form>

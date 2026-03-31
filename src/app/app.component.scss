@@ -3,30 +3,43 @@
   min-height: 100vh;
 }
 
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: #fff;
-  border-bottom: 1px solid #e6e6e6;
-}
-
-.topbar-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 12px 24px;
+.sidebar-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 12px 8px;
+  font-size: 14px;
 }
 
-.brand {
-  text-decoration: none;
-  color: #222;
-  font-size: 1.1rem;
-  font-weight: 700;
+.mini-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #6c3fc5;
 }
 
-main {
-  min-height: calc(100vh - 58px);
+.active-client-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.client-meta {
+  min-width: 0;
+}
+
+.client-meta strong,
+.client-meta small {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.client-meta small {
+  color: #6f6f6f;
+}
+
+a[mat-list-item] mat-icon {
+  margin-right: 8px;
 }

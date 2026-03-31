@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Seleziona azienda</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cerca azienda</mat-label>
+    <input matInput [formControl]="searchControl" placeholder="Nome o settore" />
+  </mat-form-field>
+
+  <div class="loading" *ngIf="loading">
+    <mat-spinner diameter="34"></mat-spinner>
+  </div>
+
+  <mat-nav-list *ngIf="!loading && filteredClients.length > 0">
+    <mat-list-item *ngFor="let client of filteredClients" (click)="pickClient(client.id)" [class.selected]="selectedClientId === client.id">
+      <img *ngIf="client.logo_path; else initials" [src]="'http://localhost:8000' + client.logo_path" class="avatar" alt="logo" />
+      <ng-template #initials>
+        <div class="avatar-placeholder">{{ getInitials(client.name) }}</div>
+      </ng-template>
+      <div matListItemTitle><strong>{{ client.name }}</strong></div>
+      <div matListItemLine>{{ client.sector || 'Settore non specificato' }}</div>
+      <mat-icon matListItemMeta *ngIf="currentActiveClientId === client.id">check_circle</mat-icon>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <p *ngIf="!loading && filteredClients.length === 0" class="empty">
+    Nessun cliente attivo. Vai su Gestisci clienti per aggiungerne uno.
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="goToClientManagement()">Gestisci clienti</button>
+  <button *ngIf="!data.firstLoad" mat-button type="button" (click)="cancel()">Annulla</button>
+  <button mat-raised-button color="primary" type="button" [disabled]="!selectedClientId" (click)="confirm()">Conferma</button>
+</mat-dialog-actions>
