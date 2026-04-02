@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,7 +37,7 @@ import {
   templateUrl: './brand-identity-form.component.html',
   styleUrl: './brand-identity-form.component.scss'
 })
-export class BrandIdentityFormComponent implements OnInit {
+export class BrandIdentityFormComponent implements OnInit, OnChanges {
   @Input() model: BrandIdentity | null = null;
   @Output() sectionFocused = new EventEmitter<string>();
   @Output() saveSection = new EventEmitter<{ section: string; payload: BrandIdentityUpdate }>();
@@ -98,6 +98,12 @@ export class BrandIdentityFormComponent implements OnInit {
     }
 
     this.form.valueChanges.subscribe(() => this.formDirty.emit(this.form.dirty));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['model'] && this.model) {
+      this.patchForm(this.model);
+    }
   }
 
   get logos(): LogoAsset[] {
